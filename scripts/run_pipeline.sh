@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "############### INSTALLING THE PACKAGE ###########"
 pip3 install -r requirements.txt
 pip3 install -e .
