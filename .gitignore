@@ -1,0 +1,9 @@
+*.tar
+.idea/
+.vscode/
+*.DS_Store
+*__pycache__*
+.mypy_cache
+*.egg-info*
+data/*/
+models/*/
