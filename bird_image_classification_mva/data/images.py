@@ -1,4 +1,4 @@
-from tensorflow.keras.preprocessing.image import load_img, save_img,smart_resize, img_to_arralabel,arralabel_to_img
+from tensorflow.keras.preprocessing.image import save_img
 import tensorflow as tf
 from bird_image_classification_mva.config.config import WIDTH, HEIGHT
 

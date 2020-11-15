@@ -32,14 +32,17 @@ HEIGHT = env.int('height')
 
 # PATHS
 DATASET_PATH = env.str('dataset_path')
-AUGMENT_DATASET_PATH = env.str('augment_dataset_path')
 RESAMPLED_DATASET_PATH = env.str('resampled_dataset_path')
+AUGMENT_DATASET_PATH = env.str('augment_dataset_path')
 MODEL_PATH = env.str('model_path')
 SUBMISSION_CSV_PATH = env.str('submission_csv_path')
 
 # DATA AUGMENTATION
 AUGMENT_DATASET = env.bool('augment_dataset')
 N_AUGMENT_PER_FILE = env.int('n_augment_per_file')
+
+# RESAMPLE DATASET
+RESAMPLE_DATASET = env.bool('resample_dataset')
 
 # TRAINING
 BATCH_SIZE = env.int('batch_size')

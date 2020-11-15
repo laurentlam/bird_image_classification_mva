@@ -9,6 +9,8 @@ from bird_image_classification_mva.config.config import (
     MODEL_PATH,
     SUBMISSION_CSV_PATH,
     SEED,
+    RESAMPLE_DATASET,
+    RESAMPLED_DATASET_PATH,
 )
 from bird_image_classification_mva.data.augmentation import create_augmented_dataset
 from bird_image_classification_mva.data.dataset import load_dataset
@@ -18,14 +20,19 @@ from bird_image_classification_mva.models.predictions import decode_predictions
 from bird_image_classification_mva.data.submission import get_test_ids
 
 def main():
-    create_resampled_dataset(DATASET_PATH)
+    class_names = create_resampled_dataset(DATASET_PATH)
     if AUGMENT_DATASET:
-        create_augmented_dataset()
-    dataset_path = AUGMENT_DATASET_PATH if AUGMENT_DATASET else DATASET_PATH
+        if RESAMPLE_DATASET:
+            create_augmented_dataset(class_names, dataset_path=RESAMPLED_DATASET_PATH)
+        else:
+            create_augmented_dataset(class_names)
+    dataset_train_path = AUGMENT_DATASET_PATH if AUGMENT_DATASET else DATASET_PATH
+    dataset_val_path = RESAMPLED_DATASET_PATH if RESAMPLE_DATASET else DATASET_PATH
+    dataset_test_path = RESAMPLED_DATASET_PATH if RESAMPLE_DATASET else DATASET_PATH
 
-    ds_train = load_dataset(dataset_path + "train_images/")
-    ds_val = load_dataset(dataset_path + "val_images/")
-    ds_test = load_dataset(dataset_path + "test_images/", shuffle=False)
+    ds_train = load_dataset(dataset_train_path + "train_images/")
+    ds_val = load_dataset(dataset_val_path + "val_images/")
+    ds_test = load_dataset(dataset_test_path + "test_images/", shuffle=False)
 
     num_classes = len(ds_train.class_names)
 
