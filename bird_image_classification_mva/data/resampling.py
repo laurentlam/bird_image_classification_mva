@@ -41,8 +41,8 @@ def resample_train_val_splits(filepaths_per_class):
 
 def resample_dataset(filepaths):
     rest_filepaths, test_filepaths = retrieve_dataset_splits(filepaths)
-    class_names, _, _ = retrieve_class_names(rest_filepaths)
-    filepaths_by_class = {class_name: [file for file in filepaths if file.split("/")[-2] == class_name] for class_name in class_names}
+    class_names, _, _ = retrieve_class_names(DATASET_PATH)
+    filepaths_by_class = {class_name: [file for file in rest_filepaths if file.split("/")[-2] == class_name] for class_name in class_names}
     train_filepaths, val_filepaths = resample_train_val_splits(filepaths_by_class)
     print("Train split: {}; Val split: {}; Test split: {}".format(len(train_filepaths), len(val_filepaths), len(test_filepaths)))
     return train_filepaths, val_filepaths, test_filepaths
@@ -51,7 +51,7 @@ def resample_dataset(filepaths):
 def copy_resampled_split(split_files, split):
     new_path = RESAMPLED_DATASET_PATH + split + "_images/"
     print("Copying new split path at ")
-    class_names, _, _ = retrieve_class_names(split_files)
+    class_names, _, _ = retrieve_class_names(DATASET_PATH)
     if split in ["train", "val"]:
         for class_name in tqdm(class_names):
             new_class_path = new_path + class_name + "/"
@@ -66,19 +66,16 @@ def copy_resampled_split(split_files, split):
             os.makedirs(new_class_path)
         for file in tqdm(split_files):
             copyfile(file, new_class_path + file.split("/")[-1])
-    if split == "train":
-        return class_names
 
 
 def copy_resampled_dataset(train_filepaths, val_filepaths, test_filepaths):
     print("Copying resampled training split...")
-    class_names = copy_resampled_split(train_filepaths, "train")
+    copy_resampled_split(train_filepaths, "train")
     print("Copying resampled validation split...")
     copy_resampled_split(val_filepaths, "val")
     print("Copying resampled testing split...")
     copy_resampled_split(test_filepaths, "test")
     print("Done.")
-    return class_names
 
 
 def create_resampled_dataset(dataset_folder):
@@ -87,5 +84,4 @@ def create_resampled_dataset(dataset_folder):
     print("Resampling dataset with val split size: {}".format(VAL_SIZE))
     train_filepaths, val_filepaths, test_filepaths = resample_dataset(filepaths)
     print("Copying resampled dataset at: {}".format(RESAMPLED_DATASET_PATH))
-    class_names = copy_resampled_dataset(train_filepaths, val_filepaths, test_filepaths)
-    return class_names
+    copy_resampled_dataset(train_filepaths, val_filepaths, test_filepaths)

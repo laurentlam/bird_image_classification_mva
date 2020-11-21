@@ -1,10 +1,12 @@
 #!/bin/bash
-# This script will solve the permissions problems with docker when running your training script
+
 echo "############### INSTALLING THE PACKAGE ###########"
-chown -R "$1:$1" /deploy
-pip install -e .
+pip3 install -r requirements.txt
+pip3 install -e .
+echo "###############          DONE          ###########"
+echo "############### STARTING PREPROCESSING ###########"
+python3 ./bird_image_classification_mva/scripts/preprocess_script.py
 echo "###############          DONE          ###########"
 echo "###############   STARTING TRAINING    ###########"
-python3 MY_TRAINING_SCRIPT
-chown -R "$1:$1" /deploy
+python3 ./bird_image_classification_mva/scripts/training_script.py
 echo "###############          DONE          ###########"

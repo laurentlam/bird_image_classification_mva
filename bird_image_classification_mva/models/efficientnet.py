@@ -5,7 +5,16 @@ from keras import layers
 from keras.layers import Input, Flatten, Dense
 from keras.models import Model
 import numpy as np
-from tensorflow.keras.applications import EfficientNetB0, EfficientNetB6, EfficientNetB7
+from tensorflow.keras.applications import (
+    EfficientNetB0,
+    EfficientNetB1,
+    EfficientNetB2,
+    EfficientNetB3,
+    EfficientNetB4,
+    EfficientNetB5,
+    EfficientNetB6,
+    EfficientNetB7,
+)
 from bird_image_classification_mva.config.config import WIDTH, HEIGHT, SEED
 
 import matplotlib.pyplot as plt
@@ -16,10 +25,20 @@ def build_model(num_classes, model="B7"):
     inputs = layers.Input(shape=(WIDTH, HEIGHT, 3))
     if model == "B7":
         model = EfficientNetB7(include_top=False, input_tensor=inputs, weights="imagenet")
-    elif model == "B0":
-        model = EfficientNetB0(include_top=False, input_tensor=inputs, weights="imagenet")
     elif model == "B6":
         model = EfficientNetB6(include_top=False, input_tensor=inputs, weights="imagenet")
+    elif model == "B5":
+        model = EfficientNetB5(include_top=False, input_tensor=inputs, weights="imagenet")
+    elif model == "B4":
+        model = EfficientNetB4(include_top=False, input_tensor=inputs, weights="imagenet")
+    elif model == "B3":
+        model = EfficientNetB3(include_top=False, input_tensor=inputs, weights="imagenet")
+    elif model == "B2":
+        model = EfficientNetB2(include_top=False, input_tensor=inputs, weights="imagenet")
+    elif model == "B1":
+        model = EfficientNetB1(include_top=False, input_tensor=inputs, weights="imagenet")
+    elif model == "B0":
+        model = EfficientNetB0(include_top=False, input_tensor=inputs, weights="imagenet")
     # Freeze the pretrained weights
     model.trainable = False
 

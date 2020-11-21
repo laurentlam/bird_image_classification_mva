@@ -3,8 +3,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras import layers
 import tensorflow as tf
 import os
-from bird_image_classification_mva.config.config import SEED, DATASET_PATH, RESAMPLED_DATASET_PATH,  AUGMENT_DATASET_PATH, N_AUGMENT_PER_FILE
-from bird_image_classification_mva.data.classes import retrieve_class_names
+from bird_image_classification_mva.config.config import SEED, DATASET_PATH, RESAMPLED_DATASET_PATH, AUGMENT_DATASET_PATH, N_AUGMENT_PER_FILE
 from bird_image_classification_mva.data.images import read_image
 
 from tensorflow.keras.preprocessing.image import load_img, save_img, smart_resize
@@ -15,6 +14,7 @@ from shutil import copyfile
 import imgaug as ia
 import imgaug.augmenters as iaa
 import cv2
+
 
 def build_augmenters():
     ia.seed(SEED)
@@ -36,8 +36,8 @@ def build_augmenters():
                     ),
                     iaa.OneOf(
                         [
-                            iaa.Fliplr(1), 
-                            iaa.Flipud(1), 
+                            iaa.Fliplr(1),
+                            iaa.Flipud(1),
                         ]
                     ),
                     iaa.LinearContrast((0.8, 1.2), per_channel=0.5),
@@ -59,6 +59,7 @@ def build_augmenters():
     )
     return augmenters
 
+
 img_augmentation = Sequential(
     [
         preprocessing.RandomRotation(factor=0.35, seed=SEED),
@@ -70,22 +71,26 @@ img_augmentation = Sequential(
 )
 
 
-def create_augmented_dataset(class_names,
-    dataset_path=DATASET_PATH, new_dataset_path=AUGMENT_DATASET_PATH, augmenters=img_augmentation, n_augment_per_file=N_AUGMENT_PER_FILE
+def create_augmented_dataset(
+    class_names,
+    dataset_path=DATASET_PATH,
+    new_dataset_path=AUGMENT_DATASET_PATH,
+    augmenters=img_augmentation,
+    n_augment_per_file=N_AUGMENT_PER_FILE,
 ):
     if not os.path.isdir(new_dataset_path):
         os.makedirs(new_dataset_path)
-        print('Creating folder at {}'.format(new_dataset_path))
+        print("Creating folder at {}".format(new_dataset_path))
     if not os.path.isdir(new_dataset_path + "train_images/"):
         os.makedirs(new_dataset_path + "train_images/")
-        print('Creating folder at {}'.format(new_dataset_path + "train_images/"))
+        print("Creating folder at {}".format(new_dataset_path + "train_images/"))
     augmenters = build_augmenters()
     for class_name in tqdm(class_names):
         train_filepaths_per_class = glob.glob(dataset_path + "train_images/" + class_name + "/*.jpg")
-        print('Found {} files for class at {}'.format(len(train_filepaths_per_class)))
+        print("Found {} files for class at {}".format(len(train_filepaths_per_class), dataset_path + "train_images/" + class_name))
         if not os.path.isdir(new_dataset_path + "train_images/{}/".format(class_name)):
             os.makedirs(new_dataset_path + "train_images/" + class_name + "/")
-            print('Creating folder at {}'.format(dataset_path + "train_images/" + class_name + "/"))
+            print("Creating folder at {}".format(dataset_path + "train_images/" + class_name + "/"))
         for filepath in train_filepaths_per_class:
             # image = read_image(filepath)
             image = cv2.imread(filepath)
@@ -95,7 +100,13 @@ def create_augmented_dataset(class_names,
                 # image_aug = img_augmentation(tf.expand_dims(image, axis=0))
                 image_aug = augmenters(image=image)
                 image_aug_path = (
-                    new_dataset_path + "train_images/" + class_name + "/" + filepath.split("/")[-1][:-4] + "_{}".format(image_index) + ".jpg"
+                    new_dataset_path
+                    + "train_images/"
+                    + class_name
+                    + "/"
+                    + filepath.split("/")[-1][:-4]
+                    + "_{}".format(image_index)
+                    + ".jpg"
                 )
                 # save_img(image_aug_path, image_aug[0])
                 cv2.imwrite(image_aug_path, image_aug)

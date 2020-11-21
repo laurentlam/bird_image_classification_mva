@@ -17,3 +17,6 @@ tensorflow
 keras
 imgaug
 opencv-python
+pycocotools
+mrcnn
+skimage

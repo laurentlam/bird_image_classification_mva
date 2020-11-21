@@ -6,4 +6,6 @@
 .mypy_cache
 *.egg-info*
 data/*/
+data/*.zip
 models/*/
+models/*.zip
