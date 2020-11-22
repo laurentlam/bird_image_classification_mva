@@ -63,6 +63,9 @@ In order to use the trained pipeline to predict on the testing set and generate 
 make predict
 ```
 
+### Going further
+If you want to go deeper in the understanding of the different steps of the pipeline, feel free to take a look at the `bird_image_classification_mva_report.pdf` report PDF file, describing all steps with references and providing results and metrics of the project.
+
 ### Troubleshooting
 If you have issues running the `make extract` command script, it might be due to compatibility reasons since the cloned Mask-RCNN repository was based on Tensorflow *1.x <= 1.9*. That would be incompatible with the rest of the scripts. 
 
