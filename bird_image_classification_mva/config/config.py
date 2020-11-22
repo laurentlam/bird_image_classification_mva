@@ -21,11 +21,6 @@ LOG_LEVEL = env.str("log_level")
 # PYTHON
 SEED = env.int("seed")
 
-# MODEL TRAINING PARAMETERS
-DO_TRAIN = env.bool("do_train")
-DO_EVAL = env.bool("do_eval")
-DO_PREDICT = env.bool("do_predict")
-
 # IMAGES
 WIDTH = env.int("width")
 HEIGHT = env.int("height")
@@ -55,4 +50,3 @@ EFFICIENTNET_MODE = env.str("efficientnet_mode")
 
 STAGE_0_EPOCHS = env.int("stage_0_epochs")
 STAGE_1_EPOCHS = env.int("stage_1_epochs")
-STAGE_2_EPOCHS = env.int("stage_2_epochs")
