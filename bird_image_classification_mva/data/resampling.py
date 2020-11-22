@@ -50,7 +50,7 @@ def resample_dataset(filepaths):
 
 def copy_resampled_split(split_files, split):
     new_path = RESAMPLED_DATASET_PATH + split + "_images/"
-    print("Copying new split path at ")
+    print("Copying new split path at: {}".format(new_path))
     class_names, _, _ = retrieve_class_names(DATASET_PATH)
     if split in ["train", "val"]:
         for class_name in tqdm(class_names):
