@@ -8,7 +8,6 @@ import sys
 import random
 import skimage.io
 from pycocotools.coco import COCO
-from mrcnn.config import Config
 from tqdm import tqdm
 import glob
 from keras.engine import saving
@@ -19,6 +18,7 @@ ROOT_DIR = os.path.abspath('./')
 warnings.filterwarnings("ignore")
 #Import Mask RCNN
 sys.path.append(ROOT_DIR)  # To find local version of the library
+from mrcnn.config import Config
 from mrcnn import utils
 import mrcnn.model as modellib
 from mrcnn import visualize
@@ -39,8 +39,8 @@ if not os.path.exists(COCO_MODEL_PATH):
 
 # Directory of images to run detection on
 
-IMAGE_DIR = os.path.join("..", "..", ROOT_DIR, "data", "bird_dataset")
-RESULT_IMAGE_DIR = os.path.join("..", "..", ROOT_DIR, "data", "cropped_bird_dataset")
+IMAGE_DIR = os.path.join(ROOT_DIR, "..", "..", "data", "bird_dataset")
+RESULT_IMAGE_DIR = os.path.join(ROOT_DIR, "..", "..", "data", "cropped_bird_dataset")
 if not os.path.isdir(RESULT_IMAGE_DIR):
     os.makedirs(RESULT_IMAGE_DIR)
 
@@ -119,8 +119,8 @@ def main():
     # Load pre-trained model
     print("Load Mask-RCNN model")
     config = InferenceConfig()
-    config.display()
     model = modellib.MaskRCNN(mode="inference", config=config, model_dir=ROOT_DIR)
+    print("Load pre-trained MS COCO weigths")
     model.load_weights(COCO_MODEL_PATH, by_name=True)
     failed_files = []
     print("Starting extraction on {} batches...".format(len(batches)))
