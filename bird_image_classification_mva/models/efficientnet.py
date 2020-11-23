@@ -1,10 +1,11 @@
-from tensorflow.keras.layers.experimental import preprocessing
-
-from keras.preprocessing import image
-from keras import layers
-from keras.layers import Input, Flatten, Dense
-from keras.models import Model
+import matplotlib.pyplot as plt
 import numpy as np
+import tensorflow as tf
+from bird_image_classification_mva.config.config import HEIGHT, SEED, WIDTH
+from keras import layers
+from keras.layers import Dense, Flatten, Input
+from keras.models import Model
+from keras.preprocessing import image
 from tensorflow.keras.applications import (
     EfficientNetB0,
     EfficientNetB1,
@@ -15,10 +16,7 @@ from tensorflow.keras.applications import (
     EfficientNetB6,
     EfficientNetB7,
 )
-from bird_image_classification_mva.config.config import WIDTH, HEIGHT, SEED
-
-import matplotlib.pyplot as plt
-import tensorflow as tf
+from tensorflow.keras.layers.experimental import preprocessing
 
 
 def build_model(num_classes, model="B7"):

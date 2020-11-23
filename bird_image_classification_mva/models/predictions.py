@@ -1,21 +1,21 @@
-import numpy as np
 import glob
 import os
 
+import numpy as np
 from bird_image_classification_mva.config.config import (
-    DATASET_PATH,
-    AUGMENT_DATASET_PATH,
     AUGMENT_DATASET,
+    AUGMENT_DATASET_PATH,
+    CROPPED_DATASET_PATH,
+    DATASET_PATH,
     EFFICIENTNET_MODE,
-    STAGE_0_EPOCHS,
-    STAGE_1_EPOCHS,
+    EXTRACT_IMAGES,
     MODEL_PATH,
-    SUBMISSION_CSV_PATH,
-    SEED,
     RESAMPLE_DATASET,
     RESAMPLED_DATASET_PATH,
-    CROPPED_DATASET_PATH,
-    EXTRACT_IMAGES,
+    SEED,
+    STAGE_0_EPOCHS,
+    STAGE_1_EPOCHS,
+    SUBMISSION_CSV_PATH,
 )
 
 

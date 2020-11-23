@@ -1,21 +1,24 @@
-from tensorflow import keras
 from bird_image_classification_mva.config.config import (
-    DATASET_PATH,
-    AUGMENT_DATASET_PATH,
     AUGMENT_DATASET,
+    AUGMENT_DATASET_PATH,
+    CROPPED_DATASET_PATH,
+    DATASET_PATH,
     EFFICIENTNET_MODE,
-    STAGE_0_EPOCHS,
-    STAGE_1_EPOCHS,
+    EXTRACT_IMAGES,
     MODEL_PATH,
-    SUBMISSION_CSV_PATH,
-    SEED,
     RESAMPLE_DATASET,
     RESAMPLED_DATASET_PATH,
-    CROPPED_DATASET_PATH,
-    EXTRACT_IMAGES,
+    SEED,
+    STAGE_0_EPOCHS,
+    STAGE_1_EPOCHS,
+    SUBMISSION_CSV_PATH,
 )
 from bird_image_classification_mva.data.dataset import load_dataset
+from bird_image_classification_mva.logger.logging import get_logger
 from bird_image_classification_mva.models.predictions import create_submission_file
+from tensorflow import keras
+
+logger = get_logger(__name__)
 
 
 def main():
@@ -23,18 +26,18 @@ def main():
 
     dataset_test_path = RESAMPLED_DATASET_PATH if RESAMPLE_DATASET else dataset_path
 
-    print("Loading dataset at {}".format(dataset_test_path + "test_images/"))
+    logger.info("Loading dataset at {}".format(dataset_test_path + "test_images/"))
     ds_test = load_dataset(dataset_test_path + "test_images/", shuffle=False)
 
-    print("Loading fine-tuned model at {}".format(MODEL_PATH))
+    logger.info("Loading fine-tuned model at {}".format(MODEL_PATH))
     model = keras.models.load_model(MODEL_PATH)
 
-    print("Starting predictions")
+    logger.info("Starting predictions")
     predictions = model.predict(ds_test)
 
-    print("Creating submissions csv file...")
+    logger.info("Creating submissions csv file...")
     create_submission_file(predictions)
-    print("DONE.")
+    logger.info("DONE.")
 
 
 if __name__ == "__main__":

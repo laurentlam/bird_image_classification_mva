@@ -1,26 +1,28 @@
-from tensorflow.keras.layers.experimental import preprocessing
-from tensorflow.keras.models import Sequential
-from tensorflow.keras import layers
-import tensorflow as tf
-import os
-from bird_image_classification_mva.config.config import (
-    SEED,
-    DATASET_PATH,
-    RESAMPLED_DATASET_PATH,
-    AUGMENT_DATASET_PATH,
-    N_AUGMENT_PER_FILE,
-    EXTRACT_IMAGES,
-)
-from bird_image_classification_mva.data.images import read_image
-
-from tensorflow.keras.preprocessing.image import load_img, save_img, smart_resize
-from tqdm import tqdm
 import glob
+import os
 from shutil import copyfile
 
+import cv2
 import imgaug as ia
 import imgaug.augmenters as iaa
-import cv2
+import tensorflow as tf
+from bird_image_classification_mva.config.config import (
+    AUGMENT_DATASET_PATH,
+    DATASET_PATH,
+    EXTRACT_IMAGES,
+    N_AUGMENT_PER_FILE,
+    RESAMPLED_DATASET_PATH,
+    SEED,
+)
+from bird_image_classification_mva.data.images import read_image
+from bird_image_classification_mva.logger.logging import get_logger
+from tensorflow.keras import layers
+from tensorflow.keras.layers.experimental import preprocessing
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.preprocessing.image import load_img, save_img, smart_resize
+from tqdm import tqdm
+
+logger = get_logger(__name__)
 
 
 def build_augmenters(imgaug=True):
@@ -99,10 +101,10 @@ def create_augmented_dataset(
 ):
     if not os.path.isdir(new_dataset_path):
         os.makedirs(new_dataset_path)
-        print("Creating folder at {}".format(new_dataset_path))
+        logger.info("Creating folder at {}".format(new_dataset_path))
     if not os.path.isdir(new_dataset_path + "train_images/"):
         os.makedirs(new_dataset_path + "train_images/")
-        print("Creating folder at {}".format(new_dataset_path + "train_images/"))
+        logger.info("Creating folder at {}".format(new_dataset_path + "train_images/"))
     augmenters = build_augmenters(imgaug=imgaug)
     for class_name in tqdm(class_names):
         train_filepaths_per_class = glob.glob(dataset_path + "train_images/" + class_name + "/*.jpg")

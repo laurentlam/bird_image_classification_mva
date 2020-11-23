@@ -1,6 +1,6 @@
-from tensorflow.keras.preprocessing.image import save_img
 import tensorflow as tf
-from bird_image_classification_mva.config.config import WIDTH, HEIGHT
+from bird_image_classification_mva.config.config import HEIGHT, WIDTH
+from tensorflow.keras.preprocessing.image import save_img
 
 
 def read_image(path, label=None, shape=(WIDTH, HEIGHT)):

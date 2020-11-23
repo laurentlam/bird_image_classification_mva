@@ -1,7 +1,5 @@
-from tensorflow.keras.preprocessing import image_dataset_from_directory
-from tensorflow.keras.preprocessing import image
-
-from bird_image_classification_mva.config.config import WIDTH, HEIGHT, BATCH_SIZE, SEED
+from bird_image_classification_mva.config.config import BATCH_SIZE, HEIGHT, SEED, WIDTH
+from tensorflow.keras.preprocessing import image, image_dataset_from_directory
 
 
 def load_dataset(path, batch_size=BATCH_SIZE, image_size=(WIDTH, HEIGHT), shuffle=True):
